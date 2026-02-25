@@ -253,3 +253,74 @@ tr:last-child td {
     width: 100%;
     max-width: 500px;
 }
+/* Calendar Report Styles */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: var(--border);
+    gap: 1px;
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-top: 1rem;
+}
+
+.calendar-day-header {
+    background: #f1f5f9;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.calendar-day {
+    background: var(--bg-card);
+    min-height: 120px;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.calendar-day.other-month {
+    background: #f8fafc;
+    color: #cbd5e1;
+}
+
+.day-number {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.calendar-shift {
+    background: #eff6ff;
+    border-left: 3px solid var(--primary);
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    color: #1e40af;
+    margin-bottom: 0.25rem;
+}
+
+.calendar-shift .time {
+    font-weight: 700;
+    display: block;
+}
+
+.calendar-shift .emp {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+.calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
