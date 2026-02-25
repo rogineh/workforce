@@ -324,3 +324,66 @@ tr:last-child td {
     align-items: center;
     margin-bottom: 2rem;
 }
+
+/* Weather Widget Styles */
+.weather-card {
+    grid-column: span 3;
+    background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.weather-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.weather-info h3 {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.9;
+    margin-bottom: 0.5rem;
+}
+
+.weather-temp {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.weather-details {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+
+.weather-location {
+    font-size: 0.875rem;
+    opacity: 0.8;
+}
+
+.weather-icon {
+    font-size: 4rem;
+    line-height: 1;
+}
+
+@media (max-width: 1024px) {
+    .weather-card {
+        grid-column: span 1;
+    }
+}
