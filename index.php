@@ -53,15 +53,17 @@ include 'includes/header.php';
                 const lon = position.coords.longitude;
                 fetchWeather(lat, lon);
             }, function (error) {
-                console.error("Error getting location:", error);
-                // Fallback to auto-IP weather if geolocation is denied
-                fetchWeather();
-            });
+                console.warn("Geolocation failed:", error);
+                fetchWeather(); // Fallback to IP
+            }, { timeout: 10000 }); // 10s timeout
         } else {
             fetchWeather();
         }
 
         function fetchWeather(lat, lon) {
+            const widget = document.getElementById('weather-widget');
+            const details = document.getElementById('weather-details');
+            
             let url = 'https://wttr.in/';
             if (lat && lon) {
                 url += `${lat},${lon}`;
@@ -69,32 +71,46 @@ include 'includes/header.php';
             url += '?format=j1';
 
             fetch(url)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) throw new Error("Weather service unreachable");
+                    return response.json();
+                })
                 .then(data => {
+                    if (!data.current_condition || !data.current_condition[0]) throw new Error("Invalid weather data");
+                    
                     const current = data.current_condition[0];
-                    const weatherDesc = current.weatherDesc[0].value;
+                    const weatherDesc = current.weatherDesc ? current.weatherDesc[0].value : "Unknown";
                     const temp = current.temp_C;
-                    const city = data.nearest_area[0].areaName[0].value;
-                    const country = data.nearest_area[0].country[0].value;
+                    
+                    let locationStr = "Unknown Location";
+                    if (data.nearest_area && data.nearest_area[0]) {
+                        const city = data.nearest_area[0].areaName ? data.nearest_area[0].areaName[0].value : "";
+                        const country = data.nearest_area[0].country ? data.nearest_area[0].country[0].value : "";
+                        locationStr = city + (country ? `, ${country}` : "");
+                    }
 
                     document.getElementById('weather-temp').innerText = `${temp}°C`;
-                    document.getElementById('weather-details').innerText = weatherDesc;
-                    document.getElementById('weather-location').innerText = `${city}, ${country}`;
+                    details.innerText = weatherDesc;
+                    document.getElementById('weather-location').innerText = locationStr;
 
-                    // Simple weather icon mapping
                     const desc = weatherDesc.toLowerCase();
                     let icon = '☀️';
                     if (desc.includes('cloud')) icon = '☁️';
-                    if (desc.includes('rain')) icon = '🌧️';
+                    if (desc.includes('rain') || desc.includes('drizzle')) icon = '🌧️';
                     if (desc.includes('sun') || desc.includes('clear')) icon = '☀️';
                     if (desc.includes('snow')) icon = '❄️';
                     if (desc.includes('thunder')) icon = '⚡';
+                    if (desc.includes('mist') || desc.includes('fog')) icon = '🌫️';
 
                     document.getElementById('weather-icon').innerText = icon;
-                    document.getElementById('weather-widget').style.display = 'flex';
+                    widget.style.display = 'flex';
                 })
                 .catch(err => {
-                    console.error("Error fetching weather:", err);
+                    console.error("Weather error:", err);
+                    // Show widget with error message only if specifically requested or to show it failed
+                    details.innerText = "Weather unavailable";
+                    document.getElementById('weather-location').innerText = "Try refreshing page";
+                    widget.style.display = 'flex';
                 });
         }
     });
