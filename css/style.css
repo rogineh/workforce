@@ -387,3 +387,42 @@ tr:last-child td {
         grid-column: span 1;
     }
 }
+/* Compact Header Weather */
+.weather-compact {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #f1f5f9;
+    padding: 0.4rem 0.75rem;
+    border-radius: 50px;
+    border: 1px solid var(--border);
+    font-size: 0.8125rem;
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+.weather-compact #weather-icon {
+    font-size: 1.1rem;
+}
+
+.weather-compact .weather-desc {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    border-left: 1px solid var(--border);
+    padding-left: 0.5rem;
+}
+
+.logout-btn {
+    font-size: 0.75rem; 
+    color: #ef4444; 
+    font-weight: 600; 
+    text-decoration: none; 
+    padding: 0.25rem 0.5rem; 
+    border: 1px solid #fee2e2; 
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.logout-btn:hover {
+    background: #fef2f2;
+}

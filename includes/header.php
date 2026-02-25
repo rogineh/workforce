@@ -20,8 +20,18 @@ require_once __DIR__ . '/auth.php';
     <main class="content">
         <header>
             <h1><?php echo $page_title ?? 'Dashboard'; ?></h1>
-            <div class="user-profile" style="display: flex; gap: 1rem; align-items: center;">
-                <span style="font-weight: 600;"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
-                <a href="logout.php" style="font-size: 0.75rem; color: #ef4444; font-weight: 600; text-decoration: none; padding: 0.25rem 0.5rem; border: 1px solid #fee2e2; border-radius: 4px;">Logout</a>
+            <div style="display: flex; align-items: center; gap: 1.5rem;">
+                <!-- Weather Widget in Header -->
+                <div id="weather-widget" class="weather-compact" style="display: none;">
+                    <span id="weather-icon">☁️</span>
+                    <span id="weather-temp">--°C</span>
+                    <span id="weather-details" class="weather-desc">Loading...</span>
+                </div>
+
+                <div class="user-profile">
+                    <span
+                        style="font-weight: 600; margin-right: 0.5rem;"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                    <a href="logout.php" class="logout-btn">Logout</a>
+                </div>
             </div>
         </header>
