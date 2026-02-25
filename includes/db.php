@@ -2,9 +2,9 @@
 // includes/db.php - Database connection management
 
 $host = 'localhost';
-$dbname = 'workforce_db';
-$username = 'root'; // DEFAULT for many local environments
-$password = '';     // DEFAULT for many local environments
+$dbname = 'rokitsit_workforce';
+$username = 'rokitsit_workforce'; // DEFAULT for many local environments
+$password = 'Workforce759459:';     // DEFAULT for many local environments
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
