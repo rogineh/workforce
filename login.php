@@ -5,20 +5,42 @@ session_start();
 
 $error = '';
 
-// Auto-seed admin user if none exists
+// Auto-seed admin user if 'admin' doesn't exist
 try {
-    $stmt = $pdo->query("SELECT COUNT(*) FROM users");
-    $user_count = $stmt->fetchColumn();
-    if ($user_count == 0) {
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE username = 'admin'");
+    $stmt->execute();
+    if ($stmt->fetchColumn() == 0) {
         $username = 'admin';
         $password = 'admin123';
         $hash = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $pdo->prepare("INSERT INTO users (username, password_hash, role) VALUES (?, ?, 'admin')");
         $stmt->execute([$username, $hash]);
-        $seed_msg = "Note: Default admin user 'admin' with password 'admin123' has been created.";
+        $seed_msg = "Note: Admin account was missing and has been created (admin / admin123).";
     }
 } catch (Exception $e) {
-    $error = "Database Error: " . $e->getMessage() . ". Please ensure you have run the database/schema.sql script.";
+    $error = "Database Error: " . $e->getMessage();
+}
+
+// Force reset admin password if requested
+if (isset($_GET['reset_admin'])) {
+    try {
+        $hash = password_hash('admin123', PASSWORD_DEFAULT);
+        $stmt = $pdo->prepare("UPDATE users SET password_hash = ? WHERE username = 'admin'");
+        $stmt->execute([$hash]);
+        $seed_msg = "Success: Admin password has been reset to 'admin123'.";
+    } catch (Exception $e) {
+        $error = "Reset Error: " . $e->getMessage();
+    }
+}
+
+// Temporary debug hook - remove for production!
+if (isset($_GET['diag'])) {
+    try {
+        $stmt = $pdo->query("SELECT id, username, password_hash FROM users");
+        $users = $stmt->fetchAll();
+        echo "<!-- DEBUG: " . json_encode($users) . " -->";
+    } catch (Exception $e) {
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
