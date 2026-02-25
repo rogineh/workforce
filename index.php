@@ -6,16 +6,6 @@ include 'includes/header.php';
 ?>
 
 <div class="stats-grid">
-    <div id="weather-widget" class="weather-card" style="display: none;">
-        <div class="weather-info">
-            <h3>Today's Weather</h3>
-            <div id="weather-temp" class="weather-temp">--°C</div>
-            <div id="weather-details" class="weather-details">Loading local weather...</div>
-            <div id="weather-location" class="weather-location">Detecting location...</div>
-        </div>
-        <div id="weather-icon" class="weather-icon">☁️</div>
-    </div>
-
     <div class="stat-card">
         <h3>Total Employees</h3>
         <?php
@@ -42,6 +32,16 @@ include 'includes/header.php';
     <div class="stat-card">
         <h3>Pending Payroll</h3>
         <p>0</p>
+    </div>
+    
+    <div id="weather-widget" class="weather-card" style="display: none;">
+        <div class="weather-info">
+            <h3>Today's Weather</h3>
+            <div id="weather-temp" class="weather-temp">--°C</div>
+            <div id="weather-details" class="weather-details">Loading weather...</div>
+            <div id="weather-location" class="weather-location">Detecting...</div>
+        </div>
+        <div id="weather-icon" class="weather-icon">☁️</div>
     </div>
 </div>
 

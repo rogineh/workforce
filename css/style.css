@@ -253,6 +253,7 @@ tr:last-child td {
     width: 100%;
     max-width: 500px;
 }
+
 /* Calendar Report Styles */
 .calendar-grid {
     display: grid;
@@ -327,7 +328,6 @@ tr:last-child td {
 
 /* Weather Widget Styles */
 .weather-card {
-    grid-column: span 3;
     background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
     color: white;
     padding: 1.5rem;
@@ -336,9 +336,9 @@ tr:last-child td {
     justify-content: space-between;
     align-items: center;
     box-shadow: var(--shadow);
-    margin-bottom: 2rem;
     position: relative;
     overflow: hidden;
+    animation: fadeIn 0.5s ease-out forwards;
 }
 
 .weather-card::before {
@@ -346,39 +346,39 @@ tr:last-child td {
     position: absolute;
     top: -50%;
     right: -10%;
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
 }
 
 .weather-info h3 {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     opacity: 0.9;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
 }
 
 .weather-temp {
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: 800;
     line-height: 1;
 }
 
 .weather-details {
-    font-size: 1rem;
-    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
     font-weight: 500;
 }
 
 .weather-location {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     opacity: 0.8;
 }
 
 .weather-icon {
-    font-size: 4rem;
+    font-size: 2.5rem;
     line-height: 1;
 }
 
