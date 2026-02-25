@@ -5,18 +5,20 @@ session_start();
 
 $error = '';
 
-// Auto-seed admin user if none exists (for development ease)
+// Auto-seed admin user if none exists
 try {
     $stmt = $pdo->query("SELECT COUNT(*) FROM users");
-    if ($stmt->fetchColumn() == 0) {
+    $user_count = $stmt->fetchColumn();
+    if ($user_count == 0) {
         $username = 'admin';
         $password = 'admin123';
         $hash = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $pdo->prepare("INSERT INTO users (username, password_hash, role) VALUES (?, ?, 'admin')");
         $stmt->execute([$username, $hash]);
+        $seed_msg = "Note: Default admin user 'admin' with password 'admin123' has been created.";
     }
 } catch (Exception $e) {
-    // Table might not exist yet if they haven't run schema.sql
+    $error = "Database Error: " . $e->getMessage() . ". Please ensure you have run the database/schema.sql script.";
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
@@ -100,6 +102,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
         <?php if ($error): ?>
             <div class="error-msg">
                 <?php echo $error; ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (isset($seed_msg)): ?>
+            <div
+                style="background: #e0f2fe; color: #0369a1; padding: 0.75rem; border-radius: 0.5rem; margin-bottom: 1.5rem; font-size: 0.875rem; text-align: center;">
+                <?php echo $seed_msg; ?>
             </div>
         <?php endif; ?>
 
