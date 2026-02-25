@@ -31,9 +31,22 @@ include 'includes/header.php';
     </div>
     <div class="stat-card">
         <h3>Pending Payroll</h3>
-        <p>0</p>
+        <?php
+        try {
+            $stmt = $pdo->query("
+                SELECT SUM(s.total_hours * e.base_pay_rate) 
+                FROM shifts s 
+                JOIN employees e ON s.employee_id = e.id 
+                WHERE s.status IN ('completed', 'verified')
+            ");
+            $pending = $stmt->fetchColumn();
+            echo "<p>$" . number_format($pending ?: 0, 2) . "</p>";
+        } catch (Exception $e) {
+            echo "<p>$0.00</p>";
+        }
+        ?>
     </div>
-    
+
     <div id="weather-widget" class="weather-card" style="display: none;">
         <div class="weather-info">
             <h3>Today's Weather</h3>
@@ -63,7 +76,7 @@ include 'includes/header.php';
         function fetchWeather(lat, lon) {
             const widget = document.getElementById('weather-widget');
             const details = document.getElementById('weather-details');
-            
+
             let url = 'https://wttr.in/';
             if (lat && lon) {
                 url += `${lat},${lon}`;
@@ -77,11 +90,11 @@ include 'includes/header.php';
                 })
                 .then(data => {
                     if (!data.current_condition || !data.current_condition[0]) throw new Error("Invalid weather data");
-                    
+
                     const current = data.current_condition[0];
                     const weatherDesc = current.weatherDesc ? current.weatherDesc[0].value : "Unknown";
                     const temp = current.temp_C;
-                    
+
                     let locationStr = "Unknown Location";
                     if (data.nearest_area && data.nearest_area[0]) {
                         const city = data.nearest_area[0].areaName ? data.nearest_area[0].areaName[0].value : "";

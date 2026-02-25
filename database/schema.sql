@@ -19,8 +19,17 @@ CREATE TABLE IF NOT EXISTS employees (
     last_name VARCHAR(50) NOT NULL,
     email VARCHAR(100) UNIQUE,
     phone VARCHAR(20),
+    address VARCHAR(255),
+    city VARCHAR(100),
+    state VARCHAR(50),
+    zip VARCHAR(20),
+    country VARCHAR(100),
     base_pay_rate DECIMAL(10, 2) DEFAULT 0.00,
     employment_type ENUM('Full-time', 'Part-time', 'Casual') DEFAULT 'Casual',
+    hire_date DATE,
+    termination_date DATE,
+    status ENUM('Active', 'Inactive', 'Terminated') DEFAULT 'Active',
+    notes TEXT,
     external_id VARCHAR(50), -- Mapping to Xero/MYOB ID if needed
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
